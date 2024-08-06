@@ -35,6 +35,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
