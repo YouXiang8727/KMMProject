@@ -52,6 +52,8 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation(libs.koin.core)
+            implementation(libs.koin.androidx.compose.viewmodel)
+            implementation(libs.viewmodel.compose)
         }
     }
 }

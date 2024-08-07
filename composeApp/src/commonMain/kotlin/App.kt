@@ -13,6 +13,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import kmmproject.composeapp.generated.resources.Res
 import kmmproject.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
@@ -30,6 +31,17 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
+            MainViewModelTest()
         }
     }
+}
+
+
+@Composable
+fun MainViewModelTest() {
+    val viewModel: MainViewModel = koinViewModel<MainViewModel>()
+
+    val result = viewModel.apiResultFlow.collectAsState()
+
+    Text(result.value.toString())
 }
