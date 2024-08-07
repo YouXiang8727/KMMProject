@@ -5,7 +5,6 @@ import data.network.dto.YouBikeDataBean
 import domain.common.ApiResult
 import domain.common.fetch
 import domain.repository.YouBikeApiRepository
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +15,7 @@ class YouBikeApiRepositoryImpl(
 
     override suspend fun fetchYouBikeData(): Flow<ApiResult<List<YouBikeDataBean>>> =
         api.httpClient.fetch {
-            HttpRequestBuilder().apply {
-                url(api.baseUrl)
-                method = HttpMethod.Get
-            }.build()
+            url(api.baseUrl)
+            method = HttpMethod.Get
         }
 }

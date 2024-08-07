@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import domain.common.ApiResult
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -15,8 +16,6 @@ import kmmproject.composeapp.generated.resources.Res
 import kmmproject.composeapp.generated.resources.compose_multiplatform
 import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.KoinApplication
-import org.koin.dsl.module
 
 @Composable
 @Preview
@@ -30,20 +29,7 @@ fun App() {
         }
     ) {
         MaterialTheme {
-            var showContent by remember { mutableStateOf(false) }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-                MainViewModelTest()
-            }
+            MainViewModelTest()
         }
     }
 }
@@ -55,5 +41,16 @@ fun MainViewModelTest() {
 
     val result = viewModel.apiResultFlow.collectAsState()
 
-    Text(result.value.toString())
+    Column {
+        Button(
+            onClick = {
+                viewModel.fetchYouBikeData()
+            },
+            enabled = result.value != ApiResult.Loading
+        ) {
+            Text("fetch api data")
+        }
+
+        Text(result.value.toString())
+    }
 }

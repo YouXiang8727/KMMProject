@@ -16,14 +16,14 @@ class MainViewModel: ViewModel(), KoinComponent {
     val apiResultFlow = _apiResultFlow.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            fetchYouBikeData()
-        }
+        fetchYouBikeData()
     }
 
-    suspend fun fetchYouBikeData() {
-        youBikeApiRepository.fetchYouBikeData().collect { result ->
-            _apiResultFlow.emit(result)
+    fun fetchYouBikeData() {
+        viewModelScope.launch {
+            youBikeApiRepository.fetchYouBikeData().collect { result ->
+                _apiResultFlow.emit(result)
+            }
         }
     }
 }
