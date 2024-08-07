@@ -36,7 +36,9 @@ kotlin {
 
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines)
+            implementation(libs.bundles.koin)
         }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
@@ -49,6 +51,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(libs.bundles.ktor)
+            implementation(libs.koin.core)
         }
     }
 }
