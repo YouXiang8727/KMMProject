@@ -13,14 +13,25 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import kmmproject.composeapp.generated.resources.Res
 import kmmproject.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.KoinApplication
+import org.koin.dsl.module
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    KoinApplication(
+        application = {
+            modules(
+                viewModelModule,
+                youBikeApiModule
+            )
+        }
+    ) {
+        MaterialTheme {
+            var showContent by remember { mutableStateOf(false) }
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { showContent = !showContent }) {
                 Text("Click me!")
             }
@@ -31,7 +42,8 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
-            MainViewModelTest()
+                MainViewModelTest()
+            }
         }
     }
 }
