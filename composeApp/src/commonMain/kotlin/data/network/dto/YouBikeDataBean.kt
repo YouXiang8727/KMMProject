@@ -1,5 +1,6 @@
 package data.network.dto
 
+import domain.model.Language
 import domain.model.YouBikeData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -43,16 +44,29 @@ data class YouBikeDataBean(
     @SerialName("available_return_bikes")
     val available_return_bikes: Int
 ) {
-    fun toYouBikeData(): YouBikeData =
+    private fun area(language: Language): String = when (language) {
+        Language.CN -> sarea
+        Language.EN -> sareaen
+    }
+
+    private fun na(language: Language): String = when (language) {
+        Language.CN -> sna
+        Language.EN -> snaen
+    }
+
+    private fun ar(language: Language): String = when (language) {
+        Language.CN -> ar
+        Language.EN -> aren
+    }
+    fun toYouBikeData(
+        language: Language
+    ): YouBikeData =
         YouBikeData(
             sno = sno,
-            sna = sna,
-            sarea = sarea,
+            sna = na(language),
+            sarea = area(language),
             mday = mday,
-            ar = ar,
-            sareaen = sareaen,
-            snaen = snaen,
-            aren = aren,
+            ar = ar(language),
             act = act,
             srcUpdateTime = srcUpdateTime,
             updateTime = updateTime,

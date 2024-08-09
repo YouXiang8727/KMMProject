@@ -23,7 +23,10 @@ fun YouBikeDataItem(
         Column(
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            Text(youBikeData.toString())
+            Text("(${youBikeData.sno})${youBikeData.sna}")
+            Text("(${youBikeData.sarea})${youBikeData.ar}")
+            Text("Available/Total: ${youBikeData.available_rent_bikes}/${youBikeData.total}")
+            Text("Update Time: ${youBikeData.srcUpdateTime}")
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.network.dto.YouBikeDataBean
 import domain.common.ApiResult
+import domain.model.Language
 import domain.model.YouBikeData
 import domain.repository.YouBikeApiRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +18,13 @@ class MainViewModel: ViewModel(), KoinComponent {
     private val youBikeApiRepository: YouBikeApiRepository by inject()
 
     private val _apiResultFlow: MutableStateFlow<ApiResult<List<YouBikeDataBean>>> = MutableStateFlow(ApiResult.Loading)
-    private val _youBikeDataMap: SnapshotStateMap<String, YouBikeData> = mutableStateMapOf()
+    private val _youBikeDataMap: SnapshotStateMap<String, YouBikeDataBean> = mutableStateMapOf()
 
     val apiResultFlow = _apiResultFlow.asStateFlow()
     val youBikeDataMap = _youBikeDataMap
+
+    private val _currentLanguage: MutableStateFlow<Language> = MutableStateFlow(Language.CN)
+    val currentLanguage = _currentLanguage.asStateFlow()
 
     init {
         collectApiResultFlow()
@@ -34,7 +38,7 @@ class MainViewModel: ViewModel(), KoinComponent {
                     result.data?.let { data ->
                         _youBikeDataMap.putAll(
                             data.associate {
-                                it.sno to it.toYouBikeData()
+                                it.sno to it
                             }
                         )
                     }
@@ -48,6 +52,13 @@ class MainViewModel: ViewModel(), KoinComponent {
             youBikeApiRepository.fetchYouBikeData().collect { result ->
                 _apiResultFlow.emit(result)
             }
+        }
+    }
+
+    fun switchCurrentLanguage() {
+        _currentLanguage.value = when (_currentLanguage.value) {
+            Language.CN -> Language.EN
+            Language.EN -> Language.CN
         }
     }
 }

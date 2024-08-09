@@ -3,11 +3,9 @@ package domain.model
 data class YouBikeData(
     val sno: String,
     val sna: String,
-    val sarea: String,val mday: String,
+    val sarea: String,
+    val mday: String,
     val ar: String,
-    val sareaen: String,
-    val snaen: String,
-    val aren: String,
     val act: String,
     val srcUpdateTime: String,
     val updateTime: String,
